@@ -1,5 +1,6 @@
 // node --harmony promises.js
 // traceur --out promises.js promises.out.js; cat runtime.js promises.out.js | node
+// regenerator --include-runtime promises.js > promises.reg.js; node promises.reg.js
 
 var when    = require("when"),
     request = require("request"),

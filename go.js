@@ -1,5 +1,6 @@
 // node --harmony go.js
 // traceur --out go.out.js go.js; cat runtime.js go.out.js | node
+// regenerator --include-runtime go.js > go.reg.js; node go.reg.js
 
 // actual machine stepper
 function go_(machine, step) {
