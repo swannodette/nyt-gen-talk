@@ -1,3 +1,6 @@
+// node --harmony go.js
+// traceur --out go.out.js go.js; cat runtime.js go.out.js | node
+
 function go_(machine, step) {
   while(!step.done) {
     var arr   = step.value(),
@@ -47,6 +50,9 @@ function take(chan) {
 
 
 var c = [];
+
+
+// you can reorder the go blocks!
 
 
 go(function* () {
