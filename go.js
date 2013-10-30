@@ -1,7 +1,7 @@
 // node --harmony go.js
 // traceur --out go.out.js go.js; cat runtime.js go.out.js | node
 
-
+// actual machine stepper
 function go_(machine, step) {
   while(!step.done) {
     var arr   = step.value(),
@@ -14,7 +14,7 @@ function go_(machine, step) {
         setImmediate(function() { go_(machine, step); });
         return;
       case "continue":
-        // we can goto the next step
+        // we can, goto the next step
         step = machine.next(value);
         break;
     }
@@ -22,6 +22,7 @@ function go_(machine, step) {
 }
 
 
+// kickoff
 function go(machine) {
   var gen = machine();
   go_(gen, gen.next());
