@@ -4,19 +4,21 @@
 // actual machine stepper
 function go_(machine, step) {
   while(!step.done) {
+    // we attempt the operation by invoking value
     var arr   = step.value(),
         state = arr[0],
         value = arr[1];
 
+    // success? or do we need to retry later?
     switch (state) {
-      case "park":
-        // if we can't proceed put ourselves in the event loop
-        setImmediate(function() { go_(machine, step); });
-        return;
       case "continue":
         // we can, goto the next step
         step = machine.next(value);
         break;
+      case "park":
+        // if we can't proceed put ourselves in the event loop
+        setImmediate(function() { go_(machine, step); });
+        return;
     }
   }
 }
@@ -29,6 +31,7 @@ function go(machine) {
 }
 
 
+// put returns a function so we can retry the put!
 function put(chan, val) {
   return function() {
     if(chan.length == 0) {
@@ -40,7 +43,7 @@ function put(chan, val) {
   };
 }
 
-
+// take returns a function so we can retry the take!
 function take(chan) {
   return function() {
     if(chan.length == 0) {
@@ -55,9 +58,8 @@ function take(chan) {
 
 var c = [];
 
-
 // you can reorder the go blocks!
-
+// yes ... ORDER DOESN'T MATTER
 
 go(function* () {
   for(var i = 0; i < 10; i++) {
