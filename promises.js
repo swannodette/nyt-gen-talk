@@ -18,16 +18,24 @@ function wikiSearch(query) {
 
 
 function async(f) {
+  // must invoke the generator fn once to get
+  // the generator
+
   var g   = f(),
       res = when.defer();
 
   (function _async(state) {
     if(!state.done) {
+      // not done, each yield returns a promise
+      // wait for the promise, then call the
+      // generator again to goto the next step
       p = state.value;
       p.then(function(v) {
         _async(g.next(v));
       });
     } else {
+      // resolve the promise of the entire
+      // async operation
       res.resolve(state.value);
     }
   })(g.next());

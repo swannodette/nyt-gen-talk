@@ -1,6 +1,7 @@
 // node --harmony go.js
 // traceur --out go.out.js go.js; cat runtime.js go.out.js | node
 
+
 function go_(machine, step) {
   while(!step.done) {
     var arr   = step.value(),
@@ -9,9 +10,11 @@ function go_(machine, step) {
 
     switch (state) {
       case "park":
+        // if we can't proceed put ourselves in the event loop
         setImmediate(function() { go_(machine, step); });
         return;
       case "continue":
+        // we can goto the next step
         step = machine.next(value);
         break;
     }
