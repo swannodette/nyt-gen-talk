@@ -6,15 +6,17 @@ function* foo() {
 }
 
 var g = foo(),
-    v = null;
+    state = null;
 
 console.log(g);
 console.log(g.constructor);
 
-v = g.next();
+state = g.next();
 
-console.log(v);
+console.log(state);
 
-v = g.next();
+state = g.next();
 
-console.log(v);
+console.log(state);
+
+// if you call g.next() after done will throw!
